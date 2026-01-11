@@ -15,7 +15,7 @@ class UploadOrchestrator:
     config: S3Config
     s3_client: S3ClientAdapter
     spool_repository: SpoolRepository
-    key_strategy: ObjectKeyStrategy
+        key_strategy: ObjectKeyStrategy
 
     def upload_or_spool(self, image_bytes: bytes) -> None:
         """Upload bytes or spool if upload fails."""

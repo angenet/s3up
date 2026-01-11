@@ -25,8 +25,8 @@ pip install -r requirements.txt
 ## 使用
 
 - 在节点列表中选择 `S3存储`
-- 填入存储信息或使用环境变量
-- 将输出图像连接到该节点即可上传
+- 填写存储配置或使用环境变量
+- 将输出图像连接到该节点即可保存
 
 ## 配置
 
@@ -34,17 +34,18 @@ pip install -r requirements.txt
 
 ### 环境变量
 
-- `S3_ENDPOINT`：自定义端点（可选）
-- `S3_BUCKET`：桶名（必填）
-- `S3_REGION`：区域（默认 `us-east-1`）
-- `S3_ACCESS_KEY_ID`：Access Key（必填）
-- `S3_SECRET_ACCESS_KEY`：Secret Key（必填）
-- `S3_USE_SSL`：是否启用 SSL（默认 `true`）
+- `S3_ENDPOINT`：服务地址（可选）
+- `S3_BUCKET`：桶名称（必填）
+- `S3_REGION`：区域代码（默认 `us-east-1`）
+- `S3_ACCESS_KEY_ID`：访问密钥（必填）
+- `S3_SECRET_ACCESS_KEY`：访问密钥密文（必填）
+- `S3_USE_SSL`：是否启用 HTTPS（默认 `true`）
 - `S3_FORCE_PATH_STYLE`：路径风格（默认 `false`）
 - `S3_PREFIX`：对象前缀（默认 `comfyui`）
-- `S3_SPOOL_DIR`：落盘目录（默认 `custom_nodes/s3up/spool`）
+- `S3_TIMESTAMP_PREFIX`：时间戳前缀（默认 `false`）
+- `S3_SPOOL_DIR`：失败暂存目录（默认 `custom_nodes/s3up/spool`）
 - `S3_RETRY_MAX`：最大重试次数（默认 `5`）
-- `S3_RETRY_BACKOFF_SECONDS`：退避秒数（默认 `2`）
+- `S3_RETRY_BACKOFF_SECONDS`：退避等待秒数（默认 `2`）
 - `S3_RETRY_INTERVAL_SECONDS`：扫描间隔秒数（默认 `5`）
 - `S3_RETRY_CONCURRENCY`：补传并发（默认 `1`）
 
