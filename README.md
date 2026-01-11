@@ -10,14 +10,17 @@ ComfyUI 插件：将输出图像保存到 S3 兼容对象存储，并提供失�
 
 ## 安装
 
-1. 将 `custom_nodes/s3up` 放入 ComfyUI 的 `custom_nodes/` 目录
+1. 将本仓库放入 ComfyUI 的 `custom_nodes/` 目录
 2. 安装依赖：
 
 ```bash
-pip install -r custom_nodes/s3up/requirements.txt
+pip install -r requirements.txt
 ```
 
 3. 启动 ComfyUI
+
+提示：如果安装了 ComfyUI-Manager，它会自动读取
+`requirements.txt` 并安装依赖。
 
 ## 使用
 
@@ -60,4 +63,3 @@ custom_nodes/s3up/
 
 - 不要在代码中硬编码密钥
 - 建议使用专用子账号与最小权限策略
-

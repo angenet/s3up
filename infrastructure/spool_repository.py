@@ -4,7 +4,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Iterable
 
-from custom_nodes.s3up.domain.spool_job import SpoolJob
+from s3up.domain.spool_job import SpoolJob
 
 
 @dataclass(frozen=True)
