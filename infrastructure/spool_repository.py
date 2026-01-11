@@ -1,10 +1,10 @@
-import json
+﻿import json
 import uuid
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Iterable
 
-from s3up.domain.spool_job import SpoolJob
+from ..domain.spool_job import SpoolJob
 
 
 @dataclass(frozen=True)

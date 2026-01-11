@@ -1,7 +1,7 @@
-import boto3
+﻿import boto3
 from dataclasses import dataclass
 
-from s3up.domain.config import S3Config
+from ..domain.config import S3Config
 
 
 @dataclass(frozen=True)

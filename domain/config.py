@@ -1,8 +1,8 @@
-import os
+﻿import os
 from dataclasses import dataclass
 from pathlib import Path
 
-from s3up.domain.exceptions import DomainException
+from ..domain.exceptions import DomainException
 
 
 @dataclass(frozen=True)

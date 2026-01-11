@@ -1,16 +1,16 @@
-from pathlib import Path
+﻿from pathlib import Path
 
-from s3up.domain.config import S3Config
-from s3up.domain.object_key_strategy import ObjectKeyStrategy
-from s3up.infrastructure.image_serializer import (
+from ..domain.config import S3Config
+from ..domain.object_key_strategy import ObjectKeyStrategy
+from ..infrastructure.image_serializer import (
     image_tensor_to_bytes,
 )
-from s3up.infrastructure.retry_worker import get_retry_worker
-from s3up.infrastructure.s3_client import S3ClientAdapter
-from s3up.infrastructure.spool_repository import (
+from ..infrastructure.retry_worker import get_retry_worker
+from ..infrastructure.s3_client import S3ClientAdapter
+from ..infrastructure.spool_repository import (
     SpoolRepository,
 )
-from s3up.infrastructure.upload_orchestrator import (
+from ..infrastructure.upload_orchestrator import (
     UploadOrchestrator,
 )
 
@@ -60,7 +60,7 @@ class S3UploadNode:
     RETURN_TYPES = ()
     FUNCTION = "store"
     OUTPUT_NODE = True
-    CATEGORY = "S3???"
+    CATEGORY = "S3存储"
 
     def __init__(self):
         self._base_dir = Path(__file__).resolve().parents[1]

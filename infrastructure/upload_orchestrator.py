@@ -1,11 +1,11 @@
-import uuid
+﻿import uuid
 from dataclasses import dataclass
 
-from s3up.domain.config import S3Config
-from s3up.domain.object_key_strategy import ObjectKeyStrategy
-from s3up.domain.spool_job import SpoolJob
-from s3up.infrastructure.s3_client import S3ClientAdapter
-from s3up.infrastructure.spool_repository import SpoolRepository
+from ..domain.config import S3Config
+from ..domain.object_key_strategy import ObjectKeyStrategy
+from ..domain.spool_job import SpoolJob
+from ..infrastructure.s3_client import S3ClientAdapter
+from ..infrastructure.spool_repository import SpoolRepository
 
 
 @dataclass(frozen=True)

@@ -1,11 +1,11 @@
-import threading
+﻿import threading
 import time
 from dataclasses import dataclass, field
 
-from s3up.domain.config import S3Config
-from s3up.domain.spool_job import SpoolJob
-from s3up.infrastructure.s3_client import S3ClientAdapter
-from s3up.infrastructure.spool_repository import SpoolRepository
+from ..domain.config import S3Config
+from ..domain.spool_job import SpoolJob
+from ..infrastructure.s3_client import S3ClientAdapter
+from ..infrastructure.spool_repository import SpoolRepository
 
 
 @dataclass
