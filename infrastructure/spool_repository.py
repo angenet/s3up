@@ -17,7 +17,8 @@ class SpoolRepository:
         """Persist image bytes and job metadata to disk."""
         self._ensure_dirs()
         file_id = uuid.uuid4().hex
-        file_path = self._files_dir() / f"{file_id}.png"
+        safe_ext = job.file_ext.lstrip(".") or "bin"
+        file_path = self._files_dir() / f"{file_id}.{safe_ext}"
         job_path = self._jobs_dir() / f"{job.job_id}.json"
         file_path.write_bytes(image_bytes)
         updated = SpoolJob(
@@ -26,6 +27,7 @@ class SpoolRepository:
             bucket=job.bucket,
             endpoint=job.endpoint,
             file_path=str(file_path),
+            file_ext=safe_ext,
             retry_count=job.retry_count,
             last_error=job.last_error,
             created_at=job.created_at,

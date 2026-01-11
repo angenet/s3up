@@ -1,26 +1,29 @@
-﻿import hashlib
-from dataclasses import dataclass
+﻿from dataclasses import dataclass
 from datetime import datetime, timezone
+import uuid
 
 
 @dataclass(frozen=True)
 class ObjectKeyStrategy:
-    """Build object keys for S3 uploads."""
+    """生成 S3 对象名称的策略。"""
 
     prefix: str
     use_timestamp_prefix: bool
 
-    def build_key(self, content: bytes, now: datetime | None = None) -> str:
-        """Build a stable object key from content and current time."""
-        digest = hashlib.sha256(content).hexdigest()
+    def build_key(
+        self, extension: str, now: datetime | None = None
+    ) -> str:
+        """生成对象名称，不创建目录层级。"""
         current = now or datetime.now(timezone.utc)
-        date_path = current.strftime("%Y/%m/%d")
-        timestamp = current.strftime("%Y%m%d%H%M%S")
+        timestamp = current.strftime("%Y%m%d_%H%M%S_%f")
+        random_hex = uuid.uuid4().hex[:8]
+        safe_ext = extension.lstrip(".") or "bin"
         safe_prefix = self.prefix.strip("/")
-        filename = f"{digest}.png"
         if self.use_timestamp_prefix:
-            filename = f"{timestamp}_{filename}"
+            filename = f"{timestamp}_{random_hex}.{safe_ext}"
+        else:
+            filename = f"{random_hex}.{safe_ext}"
         if safe_prefix:
-            return f"{safe_prefix}/{date_path}/{filename}"
-        return f"{date_path}/{filename}"
+            return f"{safe_prefix}/{filename}"
+        return filename
 

@@ -160,7 +160,7 @@ class S3UploadNode:
             spool_repository=spool_repository,
         )
         worker.start()
-        image_bytes = image_tensor_to_bytes(images)
-        orchestrator.upload_or_spool(image_bytes)
+        image_bytes, extension = image_tensor_to_bytes(images)
+        orchestrator.upload_or_spool(image_bytes, extension)
         return ()
 

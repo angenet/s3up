@@ -11,6 +11,7 @@ class SpoolJob:
     bucket: str
     endpoint: str
     file_path: str
+    file_ext: str
     retry_count: int
     last_error: str
     created_at: str
@@ -23,6 +24,7 @@ class SpoolJob:
         bucket: str,
         endpoint: str,
         file_path: str,
+        file_ext: str,
     ) -> "SpoolJob":
         """Create a new job with default retry values."""
         created_at = datetime.now(timezone.utc).isoformat()
@@ -32,6 +34,7 @@ class SpoolJob:
             bucket=bucket,
             endpoint=endpoint,
             file_path=file_path,
+            file_ext=file_ext,
             retry_count=0,
             last_error="",
             created_at=created_at,
@@ -45,6 +48,7 @@ class SpoolJob:
             "bucket": self.bucket,
             "endpoint": self.endpoint,
             "file_path": self.file_path,
+            "file_ext": self.file_ext,
             "retry_count": self.retry_count,
             "last_error": self.last_error,
             "created_at": self.created_at,
@@ -59,6 +63,7 @@ class SpoolJob:
             bucket=payload["bucket"],
             endpoint=payload["endpoint"],
             file_path=payload["file_path"],
+            file_ext=payload["file_ext"],
             retry_count=payload["retry_count"],
             last_error=payload["last_error"],
             created_at=payload["created_at"],
@@ -72,6 +77,7 @@ class SpoolJob:
             bucket=self.bucket,
             endpoint=self.endpoint,
             file_path=self.file_path,
+            file_ext=self.file_ext,
             retry_count=self.retry_count + 1,
             last_error=error,
             created_at=self.created_at,

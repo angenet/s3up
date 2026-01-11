@@ -116,9 +116,9 @@ class S3Config:
         region = os.getenv("S3_REGION", "us-east-1").strip()
         access_key_id = os.getenv("S3_ACCESS_KEY_ID", "").strip()
         secret_access_key = os.getenv("S3_SECRET_ACCESS_KEY", "").strip()
-        prefix = os.getenv("S3_PREFIX", "comfyui").strip()
+        prefix = os.getenv("S3_PREFIX", "").strip()
         use_timestamp_prefix = _parse_bool_default(
-            os.getenv("S3_TIMESTAMP_PREFIX", "false"), False
+            os.getenv("S3_TIMESTAMP_PREFIX", "true"), True
         )
         use_ssl = _parse_bool_default(
             os.getenv("S3_USE_SSL", "true"), True

@@ -28,6 +28,9 @@ pip install -r requirements.txt
 - 填写存储配置或使用环境变量
 - 将输出图像连接到该节点即可保存
 
+命名规则：默认保存到桶根目录，格式为
+`YYYYMMDD_HHMMSS_ffffff_随机8位.扩展名`。
+
 ## 配置
 
 优先级：节点输入 > 环境变量。
@@ -41,8 +44,8 @@ pip install -r requirements.txt
 - `S3_SECRET_ACCESS_KEY`：访问密钥密文（必填）
 - `S3_USE_SSL`：是否启用 HTTPS（默认 `true`）
 - `S3_FORCE_PATH_STYLE`：路径风格（默认 `false`）
-- `S3_PREFIX`：对象前缀（默认 `comfyui`）
-- `S3_TIMESTAMP_PREFIX`：时间戳前缀（默认 `false`）
+- `S3_PREFIX`：对象前缀（默认空）
+- `S3_TIMESTAMP_PREFIX`：时间戳前缀（默认 `true`）
 - `S3_SPOOL_DIR`：失败暂存目录（默认 `custom_nodes/s3up/spool`）
 - `S3_RETRY_MAX`：最大重试次数（默认 `5`）
 - `S3_RETRY_BACKOFF_SECONDS`：退避等待秒数（默认 `2`）

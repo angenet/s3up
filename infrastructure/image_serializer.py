@@ -5,8 +5,8 @@ import numpy as np
 from PIL import Image
 
 
-def image_tensor_to_bytes(images: Iterable) -> bytes:
-    """Serialize the first image tensor to PNG bytes."""
+def image_tensor_to_bytes(images: Iterable) -> tuple[bytes, str]:
+    """序列化图像并返回二进制与扩展名。"""
     image_list = list(images)
     if not image_list:
         raise ValueError("No images provided")
@@ -15,7 +15,7 @@ def image_tensor_to_bytes(images: Iterable) -> bytes:
     image = Image.fromarray(array)
     buffer = BytesIO()
     image.save(buffer, format="PNG")
-    return buffer.getvalue()
+    return buffer.getvalue(), "png"
 
 
 def _to_numpy(tensor) -> np.ndarray:

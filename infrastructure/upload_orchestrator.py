@@ -17,15 +17,21 @@ class UploadOrchestrator:
     spool_repository: SpoolRepository
     key_strategy: ObjectKeyStrategy
 
-    def upload_or_spool(self, image_bytes: bytes) -> None:
+    def upload_or_spool(self, image_bytes: bytes, extension: str) -> None:
         """Upload bytes or spool if upload fails."""
-        object_key = self.key_strategy.build_key(image_bytes)
+        object_key = self.key_strategy.build_key(extension)
         try:
             self.s3_client.upload_bytes(image_bytes, object_key)
         except Exception as exc:
-            self._spool(image_bytes, object_key, str(exc))
+            self._spool(image_bytes, object_key, extension, str(exc))
 
-    def _spool(self, image_bytes: bytes, object_key: str, error: str) -> None:
+    def _spool(
+        self,
+        image_bytes: bytes,
+        object_key: str,
+        extension: str,
+        error: str,
+    ) -> None:
         job_id = uuid.uuid4().hex
         job = SpoolJob.create(
             job_id=job_id,
@@ -33,6 +39,7 @@ class UploadOrchestrator:
             bucket=self.config.bucket,
             endpoint=self.config.endpoint,
             file_path="",
+            file_ext=extension,
         )
         updated = job.increment_retry(error)
         self.spool_repository.save_job(image_bytes, updated)
