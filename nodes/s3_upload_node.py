@@ -15,8 +15,8 @@ from ..infrastructure.upload_orchestrator import (
 )
 
 
-def _opt(input_type: str, default, label: str) -> tuple:
-    options = {"label": label}
+def _opt(input_type: str, default, label: str, tooltip: str) -> tuple:
+    options = {"label": label, "tooltip": tooltip}
     if default is not None:
         options["default"] = default
     return (input_type, options)
@@ -31,32 +31,65 @@ class S3UploadNode:
         base_dir = Path(__file__).resolve().parents[1]
         env = S3Config.env_defaults(base_dir)
         return {
-            "required": {"images": _opt("IMAGE", None, "图片")},
+            "required": {
+                "images": _opt(
+                    "IMAGE", None, "图片", "需要保存的图像输入"
+                )
+            },
             "optional": {
-                "endpoint": _opt("STRING", env["endpoint"], "端点"),
-                "bucket": _opt("STRING", env["bucket"], "存储桶"),
-                "region": _opt("STRING", env["region"], "区域"),
-                "access_key_id": _opt("STRING", "", "访问密钥"),
+                "endpoint": _opt(
+                    "STRING", env["endpoint"], "端点", "S3兼容服务地址"
+                ),
+                "bucket": _opt(
+                    "STRING", env["bucket"], "存储桶", "目标桶名称"
+                ),
+                "region": _opt(
+                    "STRING", env["region"], "区域", "区域名称"
+                ),
+                "access_key_id": _opt(
+                    "STRING", "", "访问密钥", "Access Key"
+                ),
                 "secret_access_key": _opt(
-                    "STRING", "", "访问密钥密文"
+                    "STRING", "", "访问密钥密文", "Secret Key"
                 ),
-                "use_ssl": _opt("BOOLEAN", env["use_ssl"], "启用SSL"),
+                "use_ssl": _opt(
+                    "BOOLEAN", env["use_ssl"], "启用SSL", "是否启用HTTPS"
+                ),
                 "force_path_style": _opt(
-                    "BOOLEAN", env["force_path_style"], "路径风格"
+                    "BOOLEAN",
+                    env["force_path_style"],
+                    "路径风格",
+                    "是否强制使用Path Style",
                 ),
-                "prefix": _opt("STRING", env["prefix"], "对象前缀"),
+                "prefix": _opt(
+                    "STRING", env["prefix"], "对象前缀", "对象路径前缀"
+                ),
                 "spool_dir": _opt(
-                    "STRING", str(env["spool_dir"]), "落盘目录"
+                    "STRING",
+                    str(env["spool_dir"]),
+                    "落盘目录",
+                    "失败时落盘目录",
                 ),
-                "retry_max": _opt("INT", env["retry_max"], "最大重试"),
+                "retry_max": _opt(
+                    "INT", env["retry_max"], "最大重试", "最大补传次数"
+                ),
                 "retry_backoff_seconds": _opt(
-                    "INT", env["retry_backoff_seconds"], "退避秒数"
+                    "INT",
+                    env["retry_backoff_seconds"],
+                    "退避秒数",
+                    "重试退避时长",
                 ),
                 "retry_interval_seconds": _opt(
-                    "INT", env["retry_interval_seconds"], "扫描间隔"
+                    "INT",
+                    env["retry_interval_seconds"],
+                    "扫描间隔",
+                    "后台扫描任务间隔",
                 ),
                 "retry_concurrency": _opt(
-                    "INT", env["retry_concurrency"], "补传并发"
+                    "INT",
+                    env["retry_concurrency"],
+                    "补传并发",
+                    "补传并发数",
                 ),
             },
         }

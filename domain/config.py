@@ -7,7 +7,7 @@ from ..domain.exceptions import DomainException
 
 @dataclass(frozen=True)
 class S3Config:
-    """Configuration for S3 upload and retry worker."""
+    """S3 上传与补传线程配置。"""
 
     endpoint: str
     bucket: str
@@ -25,7 +25,7 @@ class S3Config:
 
     @classmethod
     def from_env(cls, base_dir: Path) -> "S3Config":
-        """Load configuration from environment variables."""
+        """从环境变量加载配置。"""
         env = cls.env_defaults(base_dir)
         endpoint = env["endpoint"]
         bucket = env["bucket"]
@@ -62,7 +62,7 @@ class S3Config:
     def from_sources(
         cls, base_dir: Path, overrides: dict
     ) -> "S3Config":
-        """Load configuration from env and override values."""
+        """读取环境变量并用输入覆盖。"""
         env = cls.env_defaults(base_dir)
         config = cls(
             endpoint=_pick_str(overrides.get("endpoint"), env["endpoint"]),
@@ -103,7 +103,7 @@ class S3Config:
 
     @classmethod
     def env_defaults(cls, base_dir: Path) -> dict:
-        """Read environment values without required checks."""
+        """读取环境变量默认值，不做必填校验。"""
         endpoint = os.getenv("S3_ENDPOINT", "").strip()
         bucket = os.getenv("S3_BUCKET", "").strip()
         region = os.getenv("S3_REGION", "us-east-1").strip()
@@ -146,27 +146,30 @@ class S3Config:
         }
 
     def _validate(self) -> None:
-        """Validate required configuration values."""
+        """校验必填配置。"""
         if not self.bucket:
-            raise DomainException("S3_BUCKET is required")
+            raise DomainException("S3_BUCKET 是必填项")
         if not self.access_key_id:
-            raise DomainException("S3_ACCESS_KEY_ID is required")
+            raise DomainException("S3_ACCESS_KEY_ID 是必填项")
         if not self.secret_access_key:
-            raise DomainException("S3_SECRET_ACCESS_KEY is required")
+            raise DomainException("S3_SECRET_ACCESS_KEY 是必填项")
 
 
 def _parse_bool(value: str) -> bool:
+    """解析布尔值字符串。"""
     return value.strip().lower() in {"1", "true", "yes", "y"}
 
 
 def _parse_int(value: str) -> int:
+    """解析整数值字符串。"""
     try:
         return int(value)
     except ValueError as exc:
-        raise DomainException("Invalid integer value") from exc
+        raise DomainException("整数解析失败") from exc
 
 
 def _parse_int_default(value: str, fallback: int) -> int:
+    """解析整数，失败时返回默认值。"""
     try:
         return int(value)
     except ValueError:
@@ -174,6 +177,7 @@ def _parse_int_default(value: str, fallback: int) -> int:
 
 
 def _parse_bool_default(value: str, fallback: bool) -> bool:
+    """解析布尔值，失败时返回默认值。"""
     text = value.strip().lower()
     if text in {"1", "true", "yes", "y"}:
         return True
@@ -183,6 +187,7 @@ def _parse_bool_default(value: str, fallback: bool) -> bool:
 
 
 def _pick_str(value: str | None, fallback: str) -> str:
+    """读取字符串，空值则返回默认值。"""
     if value is None:
         return fallback
     if isinstance(value, str) and value.strip() == "":
@@ -191,18 +196,21 @@ def _pick_str(value: str | None, fallback: str) -> str:
 
 
 def _pick_bool(value: bool | None, fallback: bool) -> bool:
+    """读取布尔值，空值则返回默认值。"""
     if value is None:
         return fallback
     return bool(value)
 
 
 def _pick_int(value: int | None, fallback: int) -> int:
+    """读取整数值，空值则返回默认值。"""
     if value is None:
         return fallback
     return int(value)
 
 
 def _pick_path(value: str | None, fallback: Path) -> Path:
+    """读取路径，空值则返回默认值。"""
     if value is None:
         return fallback
     if isinstance(value, str) and value.strip() == "":
